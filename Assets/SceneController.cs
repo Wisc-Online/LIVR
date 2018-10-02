@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Video;
+using System.Linq;
 
 public class SceneController : MonoBehaviour
 {
@@ -10,15 +12,25 @@ public class SceneController : MonoBehaviour
 
     public GameObject spotContainer;
     public SpotController spotPrefab;
+    public VideoPlayer videoPlayer;
     public string spotsJson = "points.json";
 
     [HideInInspector]
     private readonly List<SpotController> spots = new List<SpotController>();
 
+
+    Vector3 cameraParentPosition;
+
     // Use this for initialization
     void Start()
     {
         InitializeSpots();
+
+        spots[0].Activate();
+
+        cameraParentPosition = Camera.main.transform.parent.position;
+
+
     }
 
     void InitializeSpots()
@@ -26,7 +38,7 @@ public class SceneController : MonoBehaviour
         spots.Clear();
         GameObject spot;
         SpotController spotController;
-        
+
         for (int i = 0; i < spotContainer.transform.childCount; ++i)
         {
             spot = spotContainer.transform.GetChild(i).gameObject;
@@ -44,17 +56,24 @@ public class SceneController : MonoBehaviour
         using (var textReader = new System.IO.StreamReader(stream))
         using (var jsonReader = new Newtonsoft.Json.JsonTextReader(textReader))
         {
-            
+
             Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
 
             jsonPoints = serializer.Deserialize<JsonPointTime[]>(jsonReader);
         }
 
 
-        foreach(var jsonPoint in jsonPoints)
+        int frameOffset = (int)(videoPlayer.frameRate / 2);
+        int frameRate = (int)videoPlayer.frameRate;
+
+        for (int i = 0; i < jsonPoints.Length; ++i)
         {
+
             spotController = GameObject.Instantiate<SpotController>(spotPrefab, spotContainer.transform);
-            spotController.transform.localPosition = new Vector3(jsonPoint.X, jsonPoint.Y, jsonPoint.Z);
+            spotController.transform.localPosition = new Vector3(jsonPoints[i].X, jsonPoints[i].Y, jsonPoints[i].Z);
+
+            spotController.frame = frameOffset + (i * frameRate);
+            spotController.videoPlayer = this.videoPlayer;
 
             spots.Add(spotController);
         }
@@ -70,9 +89,13 @@ public class SceneController : MonoBehaviour
     }
 
 
-    // Update is called once per frame
-    void Update()
-    {
+    int spotIndex = 0;
 
+    public void GoToNext()
+    {
+        spotIndex = (spotIndex + 1) % spots.Count;
+
+        spots[spotIndex].Activate();
     }
+
 }

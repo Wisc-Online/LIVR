@@ -1,0 +1,1 @@
+ffmpeg.exe -f image2 -r 1 -i img%02d.png -y -r 25 -pix_fmt yuv420p test.mp4
