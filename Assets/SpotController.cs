@@ -6,21 +6,24 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Video;
 
-public class SpotController : MonoBehaviour, IPointerClickHandler, HoloToolkit.Unity.InputModule.IInputClickHandler {
+public class SpotController : MonoBehaviour, IPointerClickHandler, HoloToolkit.Unity.InputModule.IInputClickHandler
+{
 
     public Material material;
     public int frame;
     public VideoPlayer videoPlayer;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public void Activate()
     {
@@ -28,7 +31,13 @@ public class SpotController : MonoBehaviour, IPointerClickHandler, HoloToolkit.U
 
         videoPlayer.frame = frame;
         videoPlayer.Pause();
+
+        for (int i = 0; i < AllSpots.Count; ++i)
+        {
+            AllSpots[i].gameObject.SetActive(NeighborIndexes.Contains(i));
+        }
     }
+
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -41,4 +50,28 @@ public class SpotController : MonoBehaviour, IPointerClickHandler, HoloToolkit.U
         Debug.Log("INPUT Click!");
         Activate();
     }
+
+    private IList<SpotController> _allSpots;
+
+    public IList<SpotController> AllSpots
+    {
+        get
+        {
+            return _allSpots ?? (_allSpots = new SpotController[] { });
+        }
+
+        set
+        {
+            _allSpots = value;
+        }
+    }
+    private HashSet<int> _neighborIndexes;
+
+    public HashSet<int> NeighborIndexes
+    {
+        get { return _neighborIndexes ?? (_neighborIndexes = new HashSet<int>()); }
+        set { _neighborIndexes = value; }
+    }
+
+    public bool IsCurrent { get; private set; }
 }

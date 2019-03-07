@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 114540301864412650}
   - component: {fileID: 114284851947377390}
   - component: {fileID: 114700464119774652}
-  - component: {fileID: 114749600542861858}
   - component: {fileID: 114074786779494922}
   m_Layer: 5
   m_Name: HolographicButton
@@ -122,9 +121,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1210820392543280}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.122, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 4469891222133882}
   - {fileID: 4165797710622800}
@@ -132,7 +131,7 @@ Transform:
   - {fileID: 4503932811191454}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &4437881344481686
 Transform:
   m_ObjectHideFlags: 1
@@ -140,7 +139,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1210903344563896}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0429, z: -0.0154}
+  m_LocalPosition: {x: 0, y: -0.043, z: 0.005}
   m_LocalScale: {x: 0.0021804431, y: 0.0021804424, z: 0.0021804424}
   m_Children: []
   m_Father: {fileID: 4249060311757736}
@@ -166,7 +165,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1185804096758482}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.004799992, z: -0.015822735}
+  m_LocalPosition: {x: 0, y: 0, z: -0.015822735}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4249060311757736}
@@ -512,19 +511,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Profile: {fileID: 11400000, guid: f9af5d824507da24b8bbd97f4948aec7, type: 2}
   audioSource: {fileID: 0}
---- !u!114 &114749600542861858
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1210820392543280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac8d5b128a1d8204fb76c86f47b75912, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pivotAxis: 1
-  targetTransform: {fileID: 0}
 --- !u!114 &114759408391228376
 MonoBehaviour:
   m_ObjectHideFlags: 1

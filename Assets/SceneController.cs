@@ -19,19 +19,14 @@ public class SceneController : MonoBehaviour
     private readonly List<SpotController> spots = new List<SpotController>();
 
 
-    Vector3 cameraParentPosition;
-
     // Use this for initialization
     void Start()
     {
         InitializeSpots();
 
         spots[0].Activate();
-
-        cameraParentPosition = Camera.main.transform.parent.position;
-
-
     }
+
 
     void InitializeSpots()
     {
@@ -43,7 +38,6 @@ public class SceneController : MonoBehaviour
         {
             spot = spotContainer.transform.GetChild(i).gameObject;
 
-            spot.transform.parent = null;
             GameObject.Destroy(spot);
         }
 
@@ -61,19 +55,19 @@ public class SceneController : MonoBehaviour
 
             jsonPoints = serializer.Deserialize<JsonPointTime[]>(jsonReader);
         }
-
-
-        int frameOffset = (int)(videoPlayer.frameRate / 2);
-        int frameRate = (int)videoPlayer.frameRate;
+        
+        Vector3 positionFixerScale = new Vector3(1, 1, 1.1f);
 
         for (int i = 0; i < jsonPoints.Length; ++i)
         {
 
             spotController = GameObject.Instantiate<SpotController>(spotPrefab, spotContainer.transform);
-            spotController.transform.localPosition = new Vector3(jsonPoints[i].X, jsonPoints[i].Y, jsonPoints[i].Z);
+            spotController.transform.localPosition = Vector3.Scale(positionFixerScale, jsonPoints[i].Position);
 
-            spotController.frame = frameOffset + (i * frameRate);
+            spotController.frame = jsonPoints[i].Frame;
             spotController.videoPlayer = this.videoPlayer;
+            spotController.AllSpots = spots;
+            spotController.NeighborIndexes = new HashSet<int>(jsonPoints[i].Neighbors);
 
             spots.Add(spotController);
         }
@@ -82,10 +76,9 @@ public class SceneController : MonoBehaviour
 
     class JsonPointTime
     {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Z { get; set; }
-        public float T { get; set; }
+        public Vector3 Position { get; set; }
+        public int Frame { get; set; }
+        public int[] Neighbors { get; set; }
     }
 
 
